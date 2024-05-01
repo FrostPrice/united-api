@@ -1,14 +1,6 @@
-# Rust Actix Web Template
+# United API
 
-## Abstract
-
-This is a template for a Rust API using the Actix Web framework. It is intended to be used as a base for future projects, so it has some basic features already implemented, such as:
-
-- Generic Database Connection
-- Generic Logger
-- Standardized Responses
-- Standardized Errors
-- Standardized Authentication
+The repository containing the API related to the United College ERP.
 
 ## Require
 
@@ -27,7 +19,7 @@ Or using **[Docker](https://www.docker.com/) (Recomended)**
 
 ### Compiling locally (Linux only)
 
-- Initiate the MongoDB, it can be either on a Cloud, [Docker](https://hub.docker.com/_/postgres) or directly on the host machine
+- Initiate the PostgresDB, it can be either on a Cloud, [Docker](https://hub.docker.com/_/postgres) or directly on the host machine
 - Access the `src` folder and create your own secret key by running `head -c16 /dev/urandom > secret.key`
 - Adapt the values of the .env file to fit your infraestrutucture
 - Build the release version: `cargo build --release`
