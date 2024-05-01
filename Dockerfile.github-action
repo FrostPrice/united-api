@@ -1,0 +1,20 @@
+# NOTE: This Dockerfile is only used for GitHub Actions. For local development, please use 'Dockerfile.debian'
+# base image
+FROM debian:buster-slim
+
+# create app directory
+RUN mkdir app
+WORKDIR /app
+
+RUN apt-get update
+
+# copy binary and configuration files
+COPY ./rust-actix-web-template .
+COPY ./.env .
+COPY ./wait-for-it.sh .
+
+# expose port
+EXPOSE 8000
+
+# run the binary
+CMD ["./wait-for-it.sh", "db:5432", "--", "/app/rust-actix-web-template"]
