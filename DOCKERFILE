@@ -1,0 +1,9 @@
+FROM node:latest
+
+WORKDIR /united-api
+
+COPY . .
+
+RUN npm install
+
+CMD [ "node", "./src/main.js" ]
