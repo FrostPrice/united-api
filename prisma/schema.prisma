@@ -14,17 +14,42 @@ datasource db {
 }
 
 model User {
-  id String @id // User CPF
-  email String @unique
-  name String
-  password String
-  profile_img String?
-  telephone1 String
-  telephone2 String?
-  status String
-  course String
+  id            String         @id // User CPF
+  email         String         @unique
+  name          String
+  password      String
+  profile_img   String?
+  telephone1    String
+  telephone2    String?
+  status        String
+  course        String
   currentPeriod Int
-  totalPeriods Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  totalPeriods  Int
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  Notification  Notification[]
+  Event         Event[]
+}
+
+model Notification {
+  id          String   @id
+  title       String
+  description String
+  type        String
+  status      String
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Event {
+  id          String   @id
+  title       String
+  description String
+  date        DateTime
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
