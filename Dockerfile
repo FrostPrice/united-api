@@ -6,4 +6,4 @@ COPY . .
 
 RUN npm install
 
-CMD [ "node", "./src/main.js" ]
+CMD [ "node", "./index.js" ]

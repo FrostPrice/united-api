@@ -1,0 +1,25 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: united
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data:/var/lib/postgresql/data
+
+  # ! NOT TESTED YET
+  # united-api:
+  #   image: united-api:latest
+  #   container_name: united-api
+  #   environment:
+  #     DATABASE_URL: postgres://postgres:postgres@postgres:5432/united
+  #     APP_PORT: 3000
+  #     APP_HOSTNAME: "localhost"
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - postgres

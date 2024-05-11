@@ -1,5 +1,7 @@
 node_modules
 package-lock.json
+.env
+data
 
 # Editor directories and files
 .vscode/*
