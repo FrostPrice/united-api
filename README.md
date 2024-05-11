@@ -32,3 +32,17 @@ This repository contains all the code related to the BackEnd (API) application o
 5. Have fun :)
 
 PS: It will create a folder called `data` in the root of the project. This folder will store the data of the PostgreSQL server. DO NOT SEND IT TO GITHUB!
+
+## Generate a Secret Key
+
+To generate a secret key, you can use the following command:
+
+```bash
+node -e "console.log(require('crypto').randomBytes(256).toString('base64'));"
+```
+
+or a linux command:
+
+```bash
+head -c16 /dev/urandom > secret.key
+```
