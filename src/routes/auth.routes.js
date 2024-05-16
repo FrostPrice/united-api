@@ -12,4 +12,5 @@ module.exports = (app) => {
   app.get("/auth/check", [], controller.checkSession);
   app.post("/auth/login", [], controller.login);
   app.post("/auth/logout", [], controller.logout);
+  app.post("/auth/register", [], controller.register);
 };

@@ -56,3 +56,83 @@ exports.logout = (req, res) => {
     return response(res, 200, "Logout successful", "");
   });
 };
+
+exports.register = async (req, res) => {
+  const {
+    cpf,
+    email,
+    name,
+    password,
+    role,
+    profile_img,
+    telephone1,
+    telephone2,
+    status,
+    course,
+    currentPeriod,
+    totalPeriods,
+  } = req.body;
+
+  if (
+    !cpf ||
+    !email ||
+    !name ||
+    !password ||
+    !telephone1 ||
+    !status ||
+    !course ||
+    !currentPeriod ||
+    !totalPeriods
+  ) {
+    return response(res, 400, "All required fields must be filled", "");
+  }
+
+  try {
+    // Check if user already exists by CPF or email
+    const userExists = await prisma.user.findFirst({
+      where: {
+        OR: [{ id: cpf }, { email: email }],
+      },
+    });
+
+    if (userExists) {
+      return response(
+        res,
+        409,
+        "User already exists with this CPF or email",
+        ""
+      );
+    }
+
+    // Hash password
+    const salt = bcrypt.genSaltSync(10);
+    const hashedPassword = bcrypt.hashSync(password, salt);
+
+    // Create user
+    const user = await prisma.user.create({
+      data: {
+        id: cpf,
+        email: email,
+        name: name,
+        password: hashedPassword,
+        role: role || "student", // default role
+        profile_img: profile_img,
+        telephone1: telephone1,
+        telephone2: telephone2,
+        status: status,
+        course: course,
+        currentPeriod: currentPeriod,
+        totalPeriods: totalPeriods,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    });
+
+    // Success response
+    return response(res, 201, "User registered successfully", {
+      userId: user.id,
+    });
+  } catch (error) {
+    return response(res, 500, "Internal server error", "");
+  }
+};
