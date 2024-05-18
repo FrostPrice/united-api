@@ -1,3 +1,4 @@
+const { checkSession, isAdmin } = require("../middlewares/authSession.js");
 const controller = require("../controllers/notifications.controller.js");
 
 /**
@@ -9,7 +10,12 @@ module.exports = (app) => {
     next();
   });
 
-  app.get("/notifications", [], controller.get);
-  app.get("/notifications/:id", [], controller.findById);
-  app.put("/notifications/:id", [], controller.put);
+  app.get("/api/notifications", [checkSession], controller.get);
+  app.get("/api/notifications/:id", [checkSession], controller.findById);
+  app.put("/api/notifications/:id", [checkSession], controller.put);
+  app.delete(
+    "/api/notifications/:id",
+    [checkSession, isAdmin],
+    controller.delete
+  );
 };

@@ -19,7 +19,7 @@ exports.findById = (req, res) => {
   prisma.notification
     .findUnique({
       where: {
-        id: req.params.id, // Ensure the id is an integer if it's expected to be one
+        id: parseInt(req.params.id), // Ensure the id is an integer if it's expected to be one
       },
     })
     .then((data) => {
@@ -34,14 +34,54 @@ exports.findById = (req, res) => {
     });
 };
 
+exports.post = (req, res) => {
+  const { title, description, status, type } = req.body;
+
+  // Validate input
+  if (!title || !description || !date) {
+    return response(res, 400, "All Fields are required", "");
+  }
+
+  const notification = {
+    title,
+    description,
+    status,
+    type,
+    userId: req.session.userId,
+  };
+  prisma.notification
+    .create({ data: notification })
+    .then(() => {
+      response(res, 201, "Created", "");
+    })
+    .catch((err) => {
+      response(res, 500, "Internal Server Error", err);
+    });
+};
+
 exports.put = (req, res) => {
   prisma.notification
     .update({
       where: {
-        id: req.params.id,
+        id: parseInt(req.params.id),
       },
       data: {
         status: req.body.status,
+      },
+    })
+    .then(() => {
+      response(res, 200, "Ok", "");
+    })
+    .catch((err) => {
+      response(res, 404, "Not Found", err);
+    });
+};
+
+exports.delete = (req, res) => {
+  prisma.notification
+    .delete({
+      where: {
+        id: parseInt(req.params.id),
       },
     })
     .then(() => {
