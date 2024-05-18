@@ -16,6 +16,11 @@ exports.get = (req, res) => {
 };
 
 exports.findById = (req, res) => {
+  // TODO: This logic could become a middleware
+  if (req.session.role !== "admin" && req.session.userId !== req.params.id) {
+    return response(res, 403, "Permission Denied", "");
+  }
+
   prisma.user
     .findUnique({
       where: {
@@ -46,6 +51,21 @@ exports.put = (req, res) => {
         telephone1: req.body.telephone1,
         telephone2: req.body.telephone2,
         // profile_img: req.body.profile_img, // TODO: Implement image upload
+      },
+    })
+    .then(() => {
+      response(res, 200, "Ok", "");
+    })
+    .catch((err) => {
+      response(res, 404, "Not Found", err);
+    });
+};
+
+exports.delete = (req, res) => {
+  prisma.user
+    .delete({
+      where: {
+        id: req.params.id,
       },
     })
     .then(() => {

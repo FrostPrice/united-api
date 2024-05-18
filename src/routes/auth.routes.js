@@ -9,8 +9,8 @@ module.exports = (app) => {
     next();
   });
 
-  app.get("/auth/check", [], controller.checkSession);
-  app.post("/auth/login", [], controller.login);
-  app.post("/auth/logout", [], controller.logout);
-  app.post("/auth/register", [], controller.register);
+  app.get("/api/auth/check", [], controller.checkSession);
+  app.post("/api/auth/login", [], controller.login);
+  app.post("/api/auth/logout", [], controller.logout);
+  app.post("/api/auth/register", [], controller.register);
 };
