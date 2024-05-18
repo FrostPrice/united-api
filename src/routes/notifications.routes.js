@@ -12,6 +12,7 @@ module.exports = (app) => {
 
   app.get("/api/notifications", [checkSession], controller.get);
   app.get("/api/notifications/:id", [checkSession], controller.findById);
+  app.post("/api/notifications", [checkSession, isAdmin], controller.post);
   app.put("/api/notifications/:id", [checkSession], controller.put);
   app.delete(
     "/api/notifications/:id",
