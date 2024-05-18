@@ -38,7 +38,7 @@ exports.post = (req, res) => {
   const { title, description, status, type } = req.body;
 
   // Validate input
-  if (!title || !description || !date) {
+  if (!title || !description || !status || !type) {
     return response(res, 400, "All Fields are required", "");
   }
 
