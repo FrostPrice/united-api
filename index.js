@@ -2,8 +2,8 @@ const express = require("express");
 const session = require("express-session");
 const { secretKeyBase64 } = require("./src/config.js");
 const app = express();
-const hostname = process.env.HOSTNAME || "localhost";
-const port = process.env.PORT || 3000;
+const hostname = process.env.APP_HOSTNAME || "localhost";
+const port = process.env.APP_PORT || 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
