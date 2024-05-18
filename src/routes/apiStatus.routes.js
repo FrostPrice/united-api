@@ -1,5 +1,4 @@
 const controller = require("../controllers/apiStatus.controller.js");
-const { checkSession } = require("../middlewares/authSession.js");
 
 /**
  * @param {import("express").Application} app
@@ -10,5 +9,5 @@ module.exports = (app) => {
     next();
   });
 
-  app.get("/api-status", [], controller.get);
+  app.get("/api/api-status", [], controller.get);
 };
