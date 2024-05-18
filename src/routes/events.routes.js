@@ -1,3 +1,4 @@
+const { checkSession, isAdmin } = require("../middlewares/authSession.js");
 const controller = require("../controllers/events.controller.js");
 
 /**
@@ -9,8 +10,9 @@ module.exports = (app) => {
     next();
   });
 
-  app.get("/events", [], controller.get);
-  app.get("/events/:id", [], controller.findById);
-  app.put("/events/:id", [], controller.put);
-  app.delete("/events/:id", [], controller.delete);
+  app.get("/api/events", [checkSession], controller.get);
+  app.get("/api/events/:id", [checkSession], controller.findById);
+  app.post("/api/events", [checkSession, isAdmin], controller.post);
+  app.put("/api/events/:id", [checkSession, isAdmin], controller.put);
+  app.delete("/api/events/:id", [checkSession, isAdmin], controller.delete);
 };
