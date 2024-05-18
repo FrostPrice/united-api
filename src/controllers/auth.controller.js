@@ -6,11 +6,12 @@ const bcrypt = require("bcryptjs");
  */
 exports.checkSession = (req, res) => {
   if (req.session.userId) {
-    return response(res, 200, "Session found", "");
+    return response(res, 200, "Session found", { userId: req.session.userId });
   } else {
     return response(res, 403, "No session found", "");
   }
 };
+
 exports.login = (req, res) => {
   // Determine if the username is an email or an id based on its content
   const isEmail = req.body.username.includes("@");
@@ -55,6 +56,12 @@ exports.login = (req, res) => {
     });
 };
 exports.logout = (req, res) => {
+  // Check if session exists
+  if (!req.session.userId) {
+    return response(res, 403, "No session found", "");
+  }
+
+  // Destroy session
   req.session.destroy((err) => {
     if (err) {
       return response(res, 500, "Failed to log out", "");
