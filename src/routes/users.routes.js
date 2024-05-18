@@ -1,3 +1,4 @@
+const { checkSession, isAdmin } = require("../middlewares/authSession.js");
 const controller = require("../controllers/users.controller.js");
 
 /**
@@ -9,7 +10,8 @@ module.exports = (app) => {
     next();
   });
 
-  app.get("/users", [], controller.get);
-  app.get("/users/:id", [], controller.findById);
-  app.put("/users/:id", [], controller.put);
+  app.get("/api/users", [checkSession, isAdmin], controller.get);
+  app.get("/api/users/:id", [checkSession], controller.findById);
+  app.put("/api/users/:id", [checkSession], controller.put);
+  app.delete("/api/users/:id", [checkSession, isAdmin], controller.delete);
 };

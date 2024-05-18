@@ -12,7 +12,6 @@ exports.checkSession = (req, res) => {
   }
 };
 exports.login = (req, res) => {
-  console.log(req.body);
   // Determine if the username is an email or an id based on its content
   const isEmail = req.body.username.includes("@");
 
@@ -35,15 +34,23 @@ exports.login = (req, res) => {
         return response(res, 401, "Invalid password", "");
       }
 
-      // Store user info in session
-      req.session.userId = user.id; // Storing user ID in session
-      req.session.isAuthenticated = true; // Additional flag to track authentication status
+      req.session.regenerate(function (err) {
+        if (err) return response(res, 500, "Session Error", err);
 
-      // Success response, no token needed
-      return response(res, 200, "Login successful", { userId: user.id });
+        // Store user info in session
+        req.session.userId = user.id; // Storing user ID in session
+        req.session.isAuthenticated = true; // Additional flag to track authentication status
+        req.session.role = user.role; // Store user role in session
+
+        req.session.save(function (err) {
+          if (err) return response(res, 500, "Session Error", err);
+
+          // Success response, no token needed
+          return response(res, 200, "Login successful", { userId: user.id });
+        });
+      });
     })
     .catch((error) => {
-      console.error("Error authenticating user:", error);
       return response(res, 500, "Internal server error", "");
     });
 };
