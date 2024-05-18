@@ -13,8 +13,12 @@ app.use(
   session({
     secret: secretKeyBase64, // Ensure this is a secure key
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true, httpOnly: true }, // Recommended for production
+    saveUninitialized: false,
+    cookie: {
+      secure: false, // * Keep it true for production. And false for development
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000,
+    }, // Recommended for production
   })
 );
 
@@ -24,7 +28,6 @@ require("./src/routes/auth.routes.js")(app);
 require("./src/routes/users.routes.js")(app);
 require("./src/routes/notifications.routes.js")(app);
 require("./src/routes/events.routes.js")(app);
-// TODO: Apply the middleware to check if the user is logged in
 
 app.listen(port, hostname, () => {
   console.log(`Starting server at ${hostname}:${port}`);
