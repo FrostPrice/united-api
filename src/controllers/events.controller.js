@@ -35,17 +35,18 @@ exports.findById = (req, res) => {
 };
 
 exports.post = (req, res) => {
-  const { title, description, date } = req.body;
+  const { title, description, date_begin, date_end } = req.body;
 
   // Validate input
-  if (!title || !description || !date) {
+  if (!title || !description || !date_begin || !date_end) {
     return response(res, 400, "All Fields are required", "");
   }
 
   const event = {
     title,
     description,
-    date: new Date(date),
+    date_begin: new Date(date_begin),
+    date_end: new Date(date_end),
     userId: req.session.userId,
   };
   prisma.event
