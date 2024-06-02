@@ -28,6 +28,11 @@ require("./src/routes/auth.routes.js")(app);
 require("./src/routes/users.routes.js")(app);
 require("./src/routes/notifications.routes.js")(app);
 require("./src/routes/events.routes.js")(app);
+require("./src/routes/grades.routes.js")(app);
+require("./src/routes/courses.routes.js")(app);
+require("./src/routes/subjects.routes.js")(app);
+require("./src/routes/professors.routes.js")(app);
+require("./src/routes/enrollments.routes.js")(app);
 
 app.listen(port, hostname, () => {
   console.log(`Starting server at ${hostname}:${port}`);
