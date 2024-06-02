@@ -33,6 +33,7 @@ require("./src/routes/courses.routes.js")(app);
 require("./src/routes/subjects.routes.js")(app);
 require("./src/routes/professors.routes.js")(app);
 require("./src/routes/enrollments.routes.js")(app);
+require("./src/routes/assessments.routes.js")(app);
 
 app.listen(port, hostname, () => {
   console.log(`Starting server at ${hostname}:${port}`);
