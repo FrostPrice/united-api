@@ -30,10 +30,11 @@ model User {
   updatedAt     DateTime       @updatedAt
   Notification  Notification[]
   Event         Event[]
+  Enrollment    Enrollment[]
 }
 
 model Notification {
-  id          Int   @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   title       String
   description String
   type        String
@@ -45,11 +46,11 @@ model Notification {
 }
 
 model Event {
-  id          Int   @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   title       String
   description String
-  date_begin  DateTime @db.Timestamp(0) @default(now())
-  date_end    DateTime @db.Timestamp(0) @default(now())
+  date_begin  DateTime @default(now()) @db.Timestamp(0)
+  date_end    DateTime @default(now()) @db.Timestamp(0)
   userId      String
   user        User     @relation(fields: [userId], references: [id])
   createdAt   DateTime @default(now())
@@ -60,5 +61,75 @@ model Session {
   id        String   @id
   sid       String   @unique
   data      String
-  expiresAt   DateTime
+  expiresAt DateTime
+}
+
+model Professor {
+  id      Int       @id @default(autoincrement())
+  name    String
+  email   String    @unique
+  Courses Course[]
+  Subject Subject[]
+}
+
+model Course {
+  id          Int       @id @default(autoincrement())
+  name        String
+  Professor   Professor @relation(fields: [professorId], references: [id])
+  professorId Int
+  Subjects    Subject[]
+}
+
+model Subject {
+  id               Int          @id @default(autoincrement())
+  name             String
+  courseId         Int
+  professorId      Int
+  period           String
+  yearSemester     String
+  status           String
+  amountClasses    Int
+  lastNotification DateTime
+  Professor        Professor    @relation(fields: [professorId], references: [id])
+  Course           Course       @relation(fields: [courseId], references: [id])
+  Content          Content[]
+  Assessment       Assessment[]
+  Enrollment       Enrollment[]
+}
+
+model Content {
+  id           Int      @id @default(autoincrement())
+  subjectId    Int
+  name         String
+  lastModified DateTime @default(now())
+  Subject      Subject  @relation(fields: [subjectId], references: [id])
+}
+
+model Assessment {
+  id        Int      @id @default(autoincrement())
+  subjectId Int
+  name      String
+  dueDate   DateTime
+  status    String
+  Subject   Subject  @relation(fields: [subjectId], references: [id])
+  Grade     Grade[]
+}
+
+model Grade {
+  id           Int        @id @default(autoincrement())
+  assessmentId Int
+  enrollmentId Int
+  value        Float
+  Assessment   Assessment @relation(fields: [assessmentId], references: [id])
+  Enrollment   Enrollment @relation(fields: [enrollmentId], references: [id])
+}
+
+model Enrollment {
+  id        Int     @id @default(autoincrement())
+  userId    String
+  subjectId Int
+  status    String
+  User      User    @relation(fields: [userId], references: [id])
+  Subject   Subject @relation(fields: [subjectId], references: [id])
+  Grades    Grade[]
 }
