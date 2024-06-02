@@ -46,3 +46,17 @@ or a linux command:
 ```bash
 head -c16 /dev/urandom > secret.key
 ```
+
+## Entities
+
+- **User**: Represents the users of the system, who can be students. Each user can have multiple notifications, events, and enrollments.
+- **Notification**: Represents notifications associated with a user.
+- **Event**: Represents events associated with a user.
+- **Session**: Manages user login sessions.
+- **Professor**: Represents professors who teach courses and subjects.
+- **Course**: Represents the offered courses and is associated with a professor.
+- **Subject**: Represents the subjects that are part of a course and are taught by a professor.
+- **Content**: Represents the content of a subject.
+- **Assessment**: Represents the evaluations of a subject.
+- **Grade**: Represents the grades assigned to an assessment for an enrollment.
+- **Enrollment**: Represents the enrollment (Matricula) of a user in a subject.
