@@ -32,14 +32,22 @@ exports.findById = (req, res) => {
 };
 
 exports.post = (req, res) => {
-  const { userId, subjectId, status } = req.body;
+  const { userId, subjectId, status, absences, maxAbsences } = req.body;
 
-  if (!userId || !subjectId || !status) {
+  if (!userId || !subjectId || !status || isNaN(absences) || !maxAbsences) {
     return response(res, 400, "All Fields are required", "");
   }
 
+  const enrollment = {
+    userId,
+    subjectId,
+    status,
+    absences,
+    maxAbsences,
+  };
+
   prisma.enrollment
-    .create({ data: req.body })
+    .create({ data: enrollment })
     .then(() => {
       response(res, 201, "Created", "");
     })
@@ -49,12 +57,26 @@ exports.post = (req, res) => {
 };
 
 exports.put = (req, res) => {
+  const { userId, subjectId, status, absences, maxAbsences } = req.body;
+
+  if (!userId || !subjectId || !status || !absences || !maxAbsences) {
+    return response(res, 400, "All Fields are required", "");
+  }
+
+  const enrollment = {
+    userId,
+    subjectId,
+    status,
+    absences,
+    maxAbsences,
+  };
+
   prisma.enrollment
     .update({
       where: {
         id: parseInt(req.params.id),
       },
-      data: req.body,
+      data: enrollment,
     })
     .then(() => {
       response(res, 200, "Ok", "");
