@@ -88,7 +88,6 @@ model Subject {
   period           String
   yearSemester     String
   status           String
-  amountClasses    Int
   lastNotification DateTime
   Professor        Professor    @relation(fields: [professorId], references: [id])
   Course           Course       @relation(fields: [courseId], references: [id])
@@ -120,6 +119,7 @@ model Grade {
   assessmentId Int
   enrollmentId Int
   value        Float
+  weight       Float
   Assessment   Assessment @relation(fields: [assessmentId], references: [id])
   Enrollment   Enrollment @relation(fields: [enrollmentId], references: [id])
 }
@@ -129,6 +129,8 @@ model Enrollment {
   userId    String
   subjectId Int
   status    String
+  absences  Int
+  maxAbsences Int
   User      User    @relation(fields: [userId], references: [id])
   Subject   Subject @relation(fields: [subjectId], references: [id])
   Grades    Grade[]
