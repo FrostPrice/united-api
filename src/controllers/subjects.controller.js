@@ -3,7 +3,9 @@ const response = require("../utils/response.js");
 
 exports.get = (req, res) => {
   prisma.subject
-    .findMany()
+    .findMany({
+      include: { Professor: true },
+    })
     .then((data) => {
       response(res, 200, "Ok", data);
     })
@@ -17,6 +19,12 @@ exports.findById = (req, res) => {
     .findUnique({
       where: {
         id: parseInt(req.params.id),
+      },
+      include: {
+        Professor: true,
+        Content: true,
+        Assessment: true,
+        Enrollment: true,
       },
     })
     .then((data) => {

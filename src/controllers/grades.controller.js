@@ -3,7 +3,21 @@ const response = require("../utils/response.js");
 
 exports.get = (req, res) => {
   prisma.grade
-    .findMany()
+    .findMany({
+      include: {
+        Assessment: true,
+        Enrollment: {
+          select: {
+            id: true,
+            absences: true,
+            maxAbsences: true,
+            Subject: {
+              select: { name: true, Professor: { select: { name: true } } },
+            },
+          },
+        },
+      },
+    })
     .then((data) => {
       response(res, 200, "Ok", data);
     })
@@ -32,9 +46,9 @@ exports.findById = (req, res) => {
 };
 
 exports.post = (req, res) => {
-  const { assessmentId, enrollmentId, value } = req.body;
+  const { assessmentId, enrollmentId, value, weight } = req.body;
 
-  if (!assessmentId || !enrollmentId || !value) {
+  if (!assessmentId || !enrollmentId || !value || !weight) {
     return response(res, 400, "All Fields are required", "");
   }
 
@@ -42,6 +56,7 @@ exports.post = (req, res) => {
     assessmentId,
     enrollmentId,
     value,
+    weight,
   };
 
   prisma.grade
@@ -55,12 +70,13 @@ exports.post = (req, res) => {
 };
 
 exports.put = (req, res) => {
-  const { assessmentId, enrollmentId, value } = req.body;
+  const { assessmentId, enrollmentId, value, weight } = req.body;
 
   const grade = {
     assessmentId,
     enrollmentId,
     value,
+    weight,
   };
 
   prisma.grade
