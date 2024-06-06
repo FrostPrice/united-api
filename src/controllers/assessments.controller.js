@@ -95,6 +95,7 @@ exports.delete = (req, res) => {
 exports.uploadFile = (req, res) => {
   const assessmentId = req.params.id;
 
+  // Check if the assessment exists
   prisma.assessment
     .findUnique({
       where: {
