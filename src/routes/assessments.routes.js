@@ -19,4 +19,9 @@ module.exports = (app) => {
     [checkSession, isAdmin],
     controller.delete
   );
+  app.post(
+    "/api/assessments/:id/upload",
+    [checkSession],
+    controller.uploadFile
+  );
 };

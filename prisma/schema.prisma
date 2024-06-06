@@ -110,6 +110,7 @@ model Assessment {
   name      String
   dueDate   DateTime
   status    String
+  filePath  String   @default("")
   Subject   Subject  @relation(fields: [subjectId], references: [id])
   Grade     Grade[]
 }
