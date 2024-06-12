@@ -138,6 +138,26 @@ async function main() {
     },
   });
 
+  // Create Contents
+  await prisma.content.create({
+    data: {
+      subjectId: subject1.id,
+      name: "Introduction to JavaScript",
+    },
+  });
+  await prisma.content.create({
+    data: {
+      subjectId: subject1.id,
+      name: "Variables",
+    },
+  });
+  await prisma.content.create({
+    data: {
+      subjectId: subject1.id,
+      name: "Operators",
+    },
+  });
+
   // Create Grades
   await prisma.grade.create({
     data: {
