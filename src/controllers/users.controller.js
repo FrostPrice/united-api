@@ -58,7 +58,7 @@ exports.findById = (req, res) => {
 };
 
 exports.put = (req, res) => {
-  if (!validateCPF(req.body.cpf)) {
+  if (!validateCPF(req.params.id)) {
     return response(res, 400, "Invalid CPF", "");
   }
 
